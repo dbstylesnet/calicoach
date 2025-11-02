@@ -1,62 +1,52 @@
-import { StyleSheet, View, Text } from "react-native";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 const HomeScreen = () => {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Pull ups</Text>
-            <Text style={styles.caption}>5 excercises</Text>
-            <Text style={styles.text}>Push ups</Text>
-            <Text style={styles.caption}>5 excercises</Text>
-            <Text style={styles.text}>Dips</Text>
-            <Text style={styles.caption}>5 excercises</Text>
-            <Text style={styles.text}>Squats</Text>
-            <Text style={styles.caption}>5 excercises</Text>
-        </View>
-    )
-}
+  return (
+    <Container>
+      <ExerciseText>Push ups</ExerciseText>
+      <CaptionText>Pressing Power</CaptionText>
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: "#171b2a",
-        justifyContent: "center",
-        width: '100%',
-        height: '100px',
-        color: '#fff',
-    },
-    text: {
-        color: '#fff',
-        fontSize: '20px',
-        fontWeight: 'bold',
-        marginBottom: '0px',
-    }  ,
-    caption: {
-        color: '#fff',
-        fontSize: '10px',
-        fontWeight: 'normal',
-        marginBottom: '20px',
-    }       
-});
+      <ExerciseText>Pullups</ExerciseText>
+      <CaptionText>Pulling Power</CaptionText>
 
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         alignItems: "center",
-//         backgroundColor: "#171b2a",
-//         justifyContent: "center",
-//         width: '200px',
-//         height: '100px',
-//         color: '#fff',
-//     }    
-// });
+      <ExerciseText>Leg Raises</ExerciseText>
+      <CaptionText>Midsection Power</CaptionText>
 
-// const Container = styled.View`
-//     flex: 1;
-//     background: red;    
+      <ExerciseText>Squats</ExerciseText>
+      <CaptionText>Leg Power</CaptionText>
 
-// `;
+      <ExerciseText>Bridges</ExerciseText>
+      <CaptionText>Spinal Power</CaptionText>
+
+      <ExerciseText>Handstand Pushups</ExerciseText>
+      <CaptionText>Shoulder Power</CaptionText>
+    </Container>
+  );
+};
+
+// Styled components
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  background-color: #171b2a;
+  width: 100%;
+  height: 100px;
+`;
+
+const ExerciseText = styled.Text`
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0px;
+`;
+
+const CaptionText = styled.Text`
+  color: #fff;
+  font-size: 10px;
+  font-weight: normal;
+  margin-bottom: 20px;
+`;
 
 export default HomeScreen;
