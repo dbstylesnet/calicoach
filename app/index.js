@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { View } from "react-native";
 import styled from "styled-components/native";
 
 const exercises = [
@@ -120,7 +121,8 @@ const HomeScreen = () => {
   };
 
   return (
-    <Container>
+    <View className="min-h-0 flex-1 bg-app-bg">
+      <Container>
       {exercises.map((exercise) => (
         <Section key={exercise.name}>
           <Touchable onPress={() => toggleCategory(exercise.name)}>
@@ -150,7 +152,8 @@ const HomeScreen = () => {
             ))}
         </Section>
       ))}
-    </Container>
+      </Container>
+    </View>
   );
 };
 

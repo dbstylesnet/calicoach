@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Let flex layouts fill the viewport on web */
+html,
+body,
+#root {
+  height: 100%;
+}
