@@ -17,7 +17,7 @@ const Layout = () => {
             />
           </View>
         </SafeAreaView>
-        <View className="h-[80vh] min-h-0">
+        <View className="min-h-0 flex-1">
           <Slot />
         </View>
       </View>
