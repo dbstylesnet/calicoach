@@ -50,6 +50,19 @@ const TabsLayout = () => {
           ),
         }}
       />
+      <Tabs.Screen
+        name="progress"
+        options={{
+          title: "Progress",
+          tabBarLabel: ({ color }) => <TabLabel label="Progress" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "checkmark-circle" : "checkmark-circle-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 };

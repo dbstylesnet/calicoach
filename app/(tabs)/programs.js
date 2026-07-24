@@ -1,41 +1,7 @@
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
 
-const sampleProgram = {
-  name: "Beginner Strength Path",
-  caption: "3 days per week · 4 weeks",
-  description:
-    "A simple full-body progression using early steps from each movement family. Rest at least one day between sessions.",
-  days: [
-    {
-      name: "Day A — Push & Core",
-      exercises: [
-        { name: "Incline Pushup", sets: "3 × 8–12" },
-        { name: "Jackknife Squat", sets: "3 × 8–12" },
-        { name: "Knee Tucks", sets: "3 × 10–15" },
-        { name: "Short Bridge", sets: "3 × 10–15" },
-      ],
-    },
-    {
-      name: "Day B — Pull & Shoulders",
-      exercises: [
-        { name: "Horizontal Pull", sets: "3 × 6–10" },
-        { name: "Supported Squat", sets: "3 × 8–12" },
-        { name: "Flat Knee Raise", sets: "3 × 8–12" },
-        { name: "Wall Headstand hold", sets: "3 × 20–40s" },
-      ],
-    },
-    {
-      name: "Day C — Full Body",
-      exercises: [
-        { name: "Kneeling Pushup", sets: "3 × 8–12" },
-        { name: "Jackknife Pull", sets: "3 × 5–8" },
-        { name: "Straight Bridge", sets: "3 × 8–12" },
-        { name: "Crow Stand practice", sets: "5 × 10–20s" },
-      ],
-    },
-  ],
-};
+import { sampleProgram } from "../../data/programs";
 
 const ProgramsScreen = () => {
   return (
@@ -52,7 +18,7 @@ const ProgramsScreen = () => {
         </Text>
 
         {sampleProgram.days.map((day) => (
-          <View key={day.name} className="mb-6">
+          <View key={day.id} className="mb-6">
             <Text className="mb-3 text-lg font-bold text-white">{day.name}</Text>
             {day.exercises.map((exercise) => (
               <View
