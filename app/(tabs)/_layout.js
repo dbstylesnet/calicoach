@@ -63,6 +63,19 @@ const TabsLayout = () => {
           ),
         }}
       />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: "History",
+          tabBarLabel: ({ color }) => <TabLabel label="History" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "time" : "time-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 };

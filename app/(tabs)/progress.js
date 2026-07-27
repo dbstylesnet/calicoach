@@ -1,12 +1,15 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
+import { useWorkoutHistory } from "../../context/WorkoutHistoryContext";
 import { findExerciseFamily } from "../../data/exercises";
 import { trainingRoutines } from "../../data/programs";
 
 const ProgressScreen = () => {
+  const { addWorkout } = useWorkoutHistory();
   const [selectedRoutineId, setSelectedRoutineId] = useState(null);
   const [completed, setCompleted] = useState({});
+  const savedForSession = useRef(false);
 
   const selectedRoutine = useMemo(
     () => trainingRoutines.find((routine) => routine.id === selectedRoutineId),
@@ -19,9 +22,17 @@ const ProgressScreen = () => {
     : 0;
   const isFinished = total > 0 && doneCount === total;
 
+  useEffect(() => {
+    if (isFinished && selectedRoutine && !savedForSession.current) {
+      addWorkout(selectedRoutine.name);
+      savedForSession.current = true;
+    }
+  }, [isFinished, selectedRoutine, addWorkout]);
+
   const selectRoutine = (routineId) => {
     setSelectedRoutineId(routineId);
     setCompleted({});
+    savedForSession.current = false;
   };
 
   const toggleExercise = (index) => {
@@ -34,6 +45,7 @@ const ProgressScreen = () => {
   const clearRoutine = () => {
     setSelectedRoutineId(null);
     setCompleted({});
+    savedForSession.current = false;
   };
 
   if (!selectedRoutine) {
@@ -128,7 +140,8 @@ const ProgressScreen = () => {
               Training complete
             </Text>
             <Text className="mb-4 text-[14px] leading-5 text-[#ccc]">
-              You finished every exercise in this routine.
+              You finished every exercise in this routine. It was saved to
+              History.
             </Text>
             <Pressable
               onPress={clearRoutine}
