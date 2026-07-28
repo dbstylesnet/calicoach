@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
 
+import { AnimatedTabBarButton } from "../../components/AnimatedTabBarButton";
 import { TabBarIcon } from "../../components/navigation/TabBarIcon";
 
 const TabLabel = ({ label, color }) => (
@@ -14,6 +15,10 @@ const TabsLayout = () => {
         headerShown: false,
         tabBarActiveTintColor: "#ffffff",
         tabBarInactiveTintColor: "#8a91a8",
+        tabBarButton: (props) => <AnimatedTabBarButton {...props} />,
+        sceneContainerStyle: {
+          backgroundColor: "#0f121c",
+        },
         tabBarStyle: {
           backgroundColor: "#171b2a",
           borderTopColor: "#2a3045",

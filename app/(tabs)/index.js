@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 
+import { AnimatedTabScene } from "../../components/AnimatedTabScene";
 import { exercises } from "../../data/exercises";
 
 const ExercisesScreen = () => {
@@ -24,39 +25,41 @@ const ExercisesScreen = () => {
   };
 
   return (
-    <View className="min-h-0 flex-1 bg-app-bg">
-      <Container>
-        {exercises.map((exercise) => (
-          <Section key={exercise.name}>
-            <Touchable onPress={() => toggleCategory(exercise.name)}>
-              <ExerciseText>{exercise.name}</ExerciseText>
-              <CaptionText>{exercise.caption}</CaptionText>
-            </Touchable>
+    <AnimatedTabScene>
+      <View className="min-h-0 flex-1 bg-app-bg">
+        <Container>
+          {exercises.map((exercise) => (
+            <Section key={exercise.name}>
+              <Touchable onPress={() => toggleCategory(exercise.name)}>
+                <ExerciseText>{exercise.name}</ExerciseText>
+                <CaptionText>{exercise.caption}</CaptionText>
+              </Touchable>
 
-            {expandedCategories[exercise.name] &&
-              exercise.steps.map((step, index) => (
-                <StepContainer key={index}>
-                  <StepTouchable
-                    onPress={() => toggleStep(exercise.name, index)}
-                  >
-                    <StepText>
-                      {index + 1}. {step}
-                    </StepText>
-                  </StepTouchable>
+              {expandedCategories[exercise.name] &&
+                exercise.steps.map((step, index) => (
+                  <StepContainer key={index}>
+                    <StepTouchable
+                      onPress={() => toggleStep(exercise.name, index)}
+                    >
+                      <StepText>
+                        {index + 1}. {step}
+                      </StepText>
+                    </StepTouchable>
 
-                  {expandedSteps[`${exercise.name}-${index}`] && (
-                    <StepDetail>
-                      <StepDetailText>
-                        Details or description of "{step}" go here.
-                      </StepDetailText>
-                    </StepDetail>
-                  )}
-                </StepContainer>
-              ))}
-          </Section>
-        ))}
-      </Container>
-    </View>
+                    {expandedSteps[`${exercise.name}-${index}`] && (
+                      <StepDetail>
+                        <StepDetailText>
+                          Details or description of "{step}" go here.
+                        </StepDetailText>
+                      </StepDetail>
+                    )}
+                  </StepContainer>
+                ))}
+            </Section>
+          ))}
+        </Container>
+      </View>
+    </AnimatedTabScene>
   );
 };
 
