@@ -1,5 +1,3 @@
-# Calicoach
-
 This is the project of Calichoach app
 
 # Calicoach 
