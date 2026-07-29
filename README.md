@@ -1,4 +1,4 @@
-This is the project of Calichoach app
+This is the project of Calicoach app
 
 # Calicoach 
 is an app for those who want start their journey and progress in calisthenics built in ReactNative
