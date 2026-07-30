@@ -1,9 +1,10 @@
 import "../global.css";
 
 import { Slot } from "expo-router";
-import { Image, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { AppStartAnimation } from "../components/AppStartAnimation";
 import { WorkoutHistoryProvider } from "../context/WorkoutHistoryContext";
 
 const Layout = () => {
@@ -11,18 +12,9 @@ const Layout = () => {
     <SafeAreaProvider>
       <WorkoutHistoryProvider>
         <View className="min-h-screen flex-1 bg-app-bg">
-          <SafeAreaView edges={["top"]} className="bg-app-bg">
-            <View className="h-[120px] items-center justify-center border-b border-app-border px-4">
-              <Image
-                source={require("../assets/images/logo.png")}
-                className="h-full w-full max-h-[100px] max-w-[280px]"
-                resizeMode="contain"
-              />
-            </View>
-          </SafeAreaView>
-          <View className="min-h-0 flex-1">
+          <AppStartAnimation>
             <Slot />
-          </View>
+          </AppStartAnimation>
         </View>
       </WorkoutHistoryProvider>
     </SafeAreaProvider>
