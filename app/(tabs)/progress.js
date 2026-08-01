@@ -3,7 +3,6 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
 import { useWorkoutHistory } from "../../context/WorkoutHistoryContext";
-import { findExerciseFamily } from "../../data/exercises";
 import { trainingRoutines } from "../../data/programs";
 
 const ProgressScreen = () => {
@@ -102,7 +101,6 @@ const ProgressScreen = () => {
 
           {selectedRoutine.exercises.map((exercise, index) => {
             const isDone = !!completed[index];
-            const family = findExerciseFamily(exercise.name);
 
             return (
               <Pressable
@@ -123,15 +121,14 @@ const ProgressScreen = () => {
                 </View>
                 <View className="flex-1">
                   <Text
-                    className={`text-[15px] ${
+                    className={`text-[15px] font-semibold ${
                       isDone ? "text-[#8a91a8] line-through" : "text-white"
                     }`}
                   >
                     {exercise.name}
                   </Text>
                   <Text className="mt-0.5 text-[12px] text-[#aaa]">
-                    {family ? `${family} · ` : ""}
-                    {exercise.sets}
+                    {exercise.caption} · {exercise.sets}
                   </Text>
                 </View>
               </Pressable>

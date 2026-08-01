@@ -1,37 +1,57 @@
+import { exercises } from "./exercises";
+
+const exerciseByName = (name) => {
+  const family = exercises.find((item) => item.name === name);
+  if (!family) {
+    throw new Error(`Unknown exercise family: ${name}`);
+  }
+  return family;
+};
+
+/** Program item = main category from the Exercises list. */
+const fromCategory = (familyName, sets) => {
+  const family = exerciseByName(familyName);
+  return {
+    name: family.name,
+    caption: family.caption,
+    sets,
+  };
+};
+
 export const sampleProgram = {
   name: "Beginner Strength Path",
   caption: "3 days per week · 4 weeks",
   description:
-    "A simple full-body progression using early steps from each movement family. Rest at least one day between sessions.",
+    "Each day is built from the main exercise categories. Rest at least one day between sessions.",
   days: [
     {
       id: "day-a",
       name: "Day A — Push & Core",
       exercises: [
-        { name: "Incline Pushup", sets: "3 × 8–12" },
-        { name: "Jackknife Squat", sets: "3 × 8–12" },
-        { name: "Knee Tucks", sets: "3 × 10–15" },
-        { name: "Short Bridge", sets: "3 × 10–15" },
+        fromCategory("Push Ups", "3 × 8–12"),
+        fromCategory("Squats", "3 × 8–12"),
+        fromCategory("Leg Raises", "3 × 10–15"),
+        fromCategory("Bridges", "3 × 10–15"),
       ],
     },
     {
       id: "day-b",
       name: "Day B — Pull & Shoulders",
       exercises: [
-        { name: "Horizontal Pull", sets: "3 × 6–10" },
-        { name: "Supported Squat", sets: "3 × 8–12" },
-        { name: "Flat Knee Raise", sets: "3 × 8–12" },
-        { name: "Wall Headstand", sets: "3 × 20–40s" },
+        fromCategory("Pullups", "3 × 6–10"),
+        fromCategory("Squats", "3 × 8–12"),
+        fromCategory("Leg Raises", "3 × 8–12"),
+        fromCategory("Handstand Pushups", "3 × 20–40s"),
       ],
     },
     {
       id: "day-c",
       name: "Day C — Full Body",
       exercises: [
-        { name: "Kneeling Pushup", sets: "3 × 8–12" },
-        { name: "Jackknife Pull", sets: "3 × 5–8" },
-        { name: "Straight Bridge", sets: "3 × 8–12" },
-        { name: "Crow Stand", sets: "5 × 10–20s" },
+        fromCategory("Push Ups", "3 × 8–12"),
+        fromCategory("Pullups", "3 × 5–8"),
+        fromCategory("Bridges", "3 × 8–12"),
+        fromCategory("Handstand Pushups", "5 × 10–20s"),
       ],
     },
   ],

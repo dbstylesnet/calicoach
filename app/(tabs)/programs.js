@@ -25,10 +25,17 @@ const ProgramsScreen = () => {
               {day.exercises.map((exercise) => (
                 <View
                   key={exercise.name}
-                  className="mb-2 flex-row items-center justify-between rounded-[5px] bg-app-surface px-3 py-2.5"
+                  className="mb-2 rounded-[5px] bg-app-surface px-3 py-2.5"
                 >
-                  <Text className="text-[15px] text-white">{exercise.name}</Text>
-                  <Text className="text-[13px] text-[#aaa]">{exercise.sets}</Text>
+                  <View className="flex-row items-center justify-between">
+                    <Text className="text-[15px] font-semibold text-white">
+                      {exercise.name}
+                    </Text>
+                    <Text className="text-[13px] text-[#aaa]">{exercise.sets}</Text>
+                  </View>
+                  <Text className="mt-1 text-[12px] text-[#8a91a8]">
+                    {exercise.caption}
+                  </Text>
                 </View>
               ))}
             </View>
