@@ -2,6 +2,8 @@ export const exercises = [
   {
     name: "Push Ups",
     caption: "Pressing Power",
+    description:
+      "Push ups build pressing strength through the chest, shoulders, and triceps using only your bodyweight. Work through the steps in order so you earn harder variations without rushing form.",
     steps: [
       "Wall Pushup",
       "Incline Pushup",
@@ -18,6 +20,8 @@ export const exercises = [
   {
     name: "Squats",
     caption: "Leg Power",
+    description:
+      "Squats develop the quads, glutes, and overall lower-body strength that carries into every athletic movement. Progress step by step until single-leg work feels controlled and balanced.",
     steps: [
       "Shoulderstand Squat",
       "Jackknife Squat",
@@ -34,6 +38,8 @@ export const exercises = [
   {
     name: "Pullups",
     caption: "Pulling Power",
+    description:
+      "Pullups train the back, biceps, and grip by pulling your body toward a bar or similar hold. Master easier horizontal and assisted steps before chasing full and one-arm pullups.",
     steps: [
       "Vertical Pull",
       "Horizontal Pull",
@@ -50,6 +56,8 @@ export const exercises = [
   {
     name: "Leg Raises",
     caption: "Midsection Power",
+    description:
+      "Leg raises strengthen the abs and hip flexors while teaching you to control the trunk under load. Start on the floor, then move to hanging versions as your midsection gets stronger.",
     steps: [
       "Knee Tucks",
       "Flat Knee Raise",
@@ -66,6 +74,8 @@ export const exercises = [
   {
     name: "Bridges",
     caption: "Spinal Power",
+    description:
+      "Bridges build posterior chain strength and spinal mobility through progressive back-bending holds and presses. Move carefully through each step to protect the neck and lower back.",
     steps: [
       "Short Bridge",
       "Straight Bridge",
@@ -82,6 +92,8 @@ export const exercises = [
   {
     name: "Handstand Pushups",
     caption: "Shoulder Power",
+    description:
+      "Handstand pushups develop overhead pressing strength, balance, and shoulder stability upside down. Learn solid inversion first, then add deeper pressing range as control improves.",
     steps: [
       "Wall Headstand",
       "Crow Stand",

@@ -33,6 +33,7 @@ const ExercisesScreen = () => {
               <Touchable onPress={() => toggleCategory(exercise.name)}>
                 <ExerciseText>{exercise.name}</ExerciseText>
                 <CaptionText>{exercise.caption}</CaptionText>
+                <DescriptionText>{exercise.description}</DescriptionText>
               </Touchable>
 
               {expandedCategories[exercise.name] &&
@@ -87,6 +88,13 @@ const ExerciseText = styled.Text`
 const CaptionText = styled.Text`
   color: #aaa;
   font-size: 13px;
+`;
+
+const DescriptionText = styled.Text`
+  color: #ccc;
+  font-size: 13px;
+  line-height: 18px;
+  margin-top: 6px;
 `;
 
 const StepContainer = styled.View`
