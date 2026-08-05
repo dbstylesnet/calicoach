@@ -38,20 +38,18 @@ const ExercisesScreen = () => {
 
               {expandedCategories[exercise.name] &&
                 exercise.steps.map((step, index) => (
-                  <StepContainer key={index}>
+                  <StepContainer key={step.name}>
                     <StepTouchable
                       onPress={() => toggleStep(exercise.name, index)}
                     >
                       <StepText>
-                        {index + 1}. {step}
+                        {index + 1}. {step.name}
                       </StepText>
                     </StepTouchable>
 
                     {expandedSteps[`${exercise.name}-${index}`] && (
                       <StepDetail>
-                        <StepDetailText>
-                          Details or description of "{step}" go here.
-                        </StepDetailText>
+                        <StepDetailText>{step.description}</StepDetailText>
                       </StepDetail>
                     )}
                   </StepContainer>
