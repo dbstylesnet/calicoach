@@ -7,10 +7,9 @@ It features list of excercises, weekly programms, workout helper and history tra
 
 <img src="https://github.com/dbstylesnet/calicoach/blob/main/project.png" alt="ProjectScreenshot" />
 
-Getting Started
+<br>
 
-App is still in development but you can access it locally:
-Clone the repository
-From the project’s root directory, run:
+**App is still in development but you can access it locally:**
+Clone the repository and from the project’s root directory, run
 ### `npx expo -w` for web access
 
