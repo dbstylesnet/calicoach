@@ -3,6 +3,7 @@ import { View } from "react-native";
 import styled from "styled-components/native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
+import { PageHeader } from "../../components/PageHeader";
 import { exercises } from "../../data/exercises";
 
 const ExercisesScreen = () => {
@@ -28,6 +29,11 @@ const ExercisesScreen = () => {
     <AnimatedTabScene>
       <View className="min-h-0 flex-1 bg-app-bg">
         <Container>
+          <PageHeader
+            title="Exercises"
+            subtitle="Browse each movement family and open a step for details."
+          />
+
           {exercises.map((exercise) => (
             <Section key={exercise.name}>
               <Touchable onPress={() => toggleCategory(exercise.name)}>

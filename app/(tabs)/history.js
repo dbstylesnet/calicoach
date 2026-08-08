@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
+import { PageHeader } from "../../components/PageHeader";
 import {
   formatWorkoutDateTime,
   useWorkoutHistory,
@@ -14,15 +15,15 @@ const HistoryScreen = () => {
     <AnimatedTabScene>
       <View className="min-h-0 flex-1 bg-app-bg">
         <ScrollView className="flex-1 bg-app-bg px-5 pt-5">
-          <Text className="mb-1 text-2xl font-bold text-white">History</Text>
-          <Text className="mb-6 text-[15px] leading-5 text-[#ccc]">
-            Completed workouts with date and time.
-          </Text>
+          <PageHeader
+            title="History"
+            subtitle="Completed workouts with date and time."
+          />
 
           {history.length === 0 ? (
             <View className="rounded-[5px] border border-app-border bg-app-surface px-4 py-4">
               <Text className="text-[15px] text-[#ccc]">
-                No finished workouts yet. Complete a routine in Progress to see
+                No finished workouts yet. Complete a routine in Training to see
                 it here.
               </Text>
             </View>

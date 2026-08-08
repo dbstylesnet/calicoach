@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
+import { PageHeader } from "../../components/PageHeader";
 import { useWorkoutHistory } from "../../context/WorkoutHistoryContext";
 import { trainingRoutines } from "../../data/programs";
 
@@ -53,11 +54,10 @@ const ProgressScreen = () => {
       <AnimatedTabScene>
         <View className="min-h-0 flex-1 bg-app-bg">
           <ScrollView className="flex-1 bg-app-bg px-5 pt-5">
-            <Text className="mb-1 text-2xl font-bold text-white">Progress</Text>
-            <Text className="mb-6 text-[15px] leading-5 text-[#ccc]">
-              Choose a training routine to start. Check off each exercise as you
-              finish it.
-            </Text>
+            <PageHeader
+              title="Training"
+              subtitle="Choose a routine, then check off each category as you finish it."
+            />
 
             {trainingRoutines.map((routine) => (
               <Pressable
@@ -69,7 +69,7 @@ const ProgressScreen = () => {
                   {routine.name}
                 </Text>
                 <Text className="text-[13px] text-[#aaa]">
-                  {routine.exercises.length} exercises from the exercise list
+                  {routine.exercises.length} categories from the exercise list
                 </Text>
               </Pressable>
             ))}
@@ -83,9 +83,11 @@ const ProgressScreen = () => {
     <AnimatedTabScene>
       <View className="min-h-0 flex-1 bg-app-bg">
         <ScrollView className="flex-1 bg-app-bg px-5 pt-5">
+          <PageHeader title="Training" />
+
           <View className="mb-4 flex-row items-start justify-between">
             <View className="mr-3 flex-1">
-              <Text className="mb-1 text-2xl font-bold text-white">
+              <Text className="mb-1 text-xl font-bold text-white">
                 {selectedRoutine.name}
               </Text>
               <Text className="text-[13px] text-[#aaa]">

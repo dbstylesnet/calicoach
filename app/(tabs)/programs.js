@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
+import { PageHeader } from "../../components/PageHeader";
 import { sampleProgram } from "../../data/programs";
 
 const ProgramsScreen = () => {
@@ -9,7 +10,12 @@ const ProgramsScreen = () => {
     <AnimatedTabScene>
       <View className="min-h-0 flex-1 bg-app-bg">
         <ScrollView className="flex-1 bg-app-bg px-5 pt-5">
-          <Text className="mb-1 text-2xl font-bold text-white">
+          <PageHeader
+            title="Programs"
+            subtitle="Training plans built from the main exercise categories."
+          />
+
+          <Text className="mb-1 text-xl font-bold text-white">
             {sampleProgram.name}
           </Text>
           <Text className="mb-3 text-[13px] text-[#aaa]">
