@@ -7,9 +7,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-// Darker shade of app bg (#171b2a) so fades don't flash white
-const SCENE_BG = "#0f121c";
-
+// Keep scene transparent so parent .bg-app-bg gradient shows through
 export function AnimatedTabScene({ children }) {
   const isFocused = useIsFocused();
   const progress = useSharedValue(isFocused ? 1 : 0);
@@ -40,6 +38,6 @@ export function AnimatedTabScene({ children }) {
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-    backgroundColor: SCENE_BG,
+    backgroundColor: "transparent",
   },
 });

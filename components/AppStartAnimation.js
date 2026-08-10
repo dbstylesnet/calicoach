@@ -17,7 +17,7 @@ const START_LOGO_WIDTH = 420;
 const FADE_MS = 500;
 const HOLD_MS = 1000;
 const MOVE_MS = 750;
-const APP_BG = "#171b2a";
+const APP_BG = "transparent";
 
 const logoSource = require("../assets/images/logo.png");
 

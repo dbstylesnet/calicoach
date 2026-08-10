@@ -8,3 +8,14 @@ body,
 #root {
   height: 100%;
 }
+
+/* Override solid bg-app-bg with a subtle gradient of the same color */
+.bg-app-bg {
+  background-color: #171b2a !important;
+  background-image: linear-gradient(
+    180deg,
+    #141826 0%,
+    #171b2a 50%,
+    #1a1f30 100%
+  ) !important;
+}

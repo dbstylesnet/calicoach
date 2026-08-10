@@ -70,7 +70,7 @@ const ExercisesScreen = () => {
 
 const Container = styled.ScrollView`
   flex: 1;
-  background-color: #171b2a;
+  background-color: transparent;
   padding: 20px;
 `;
 

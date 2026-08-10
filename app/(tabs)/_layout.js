@@ -17,10 +17,10 @@ const TabsLayout = () => {
         tabBarInactiveTintColor: "#8a91a8",
         tabBarButton: (props) => <AnimatedTabBarButton {...props} />,
         sceneContainerStyle: {
-          backgroundColor: "#0f121c",
+          backgroundColor: "transparent",
         },
         tabBarStyle: {
-          backgroundColor: "#171b2a",
+          backgroundColor: "rgba(23, 27, 42, 0.96)",
           borderTopColor: "#2a3045",
           borderTopWidth: 1,
           height: 64,
