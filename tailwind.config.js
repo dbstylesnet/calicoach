@@ -13,6 +13,8 @@ module.exports = {
           bg: "#171b2a",
           border: "#2a3045",
           surface: "#222842",
+          accent: "#30c8f8",
+          title: "#e8ecf5",
         },
       },
     },
