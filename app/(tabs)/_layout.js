@@ -13,8 +13,14 @@ const TabLabel = ({ label, color }) => (
 const TabsLayout = () => {
   const previousIndex = useRef(0);
 
+  const onTabPress = (index) => () => {
+    if (index === previousIndex.current) return;
+    setTabSlideDirection(index > previousIndex.current ? 1 : -1);
+  };
+
   return (
     <Tabs
+      lazy={false}
       screenListeners={{
         state: (event) => {
           const state = event.data?.state;
@@ -47,6 +53,7 @@ const TabsLayout = () => {
     >
       <Tabs.Screen
         name="index"
+        listeners={{ tabPress: onTabPress(0) }}
         options={{
           title: "Exercises",
           tabBarLabel: ({ color }) => <TabLabel label="Exercises" color={color} />,
@@ -60,6 +67,7 @@ const TabsLayout = () => {
       />
       <Tabs.Screen
         name="programs"
+        listeners={{ tabPress: onTabPress(1) }}
         options={{
           title: "Programs",
           tabBarLabel: ({ color }) => <TabLabel label="Programs" color={color} />,
@@ -73,6 +81,7 @@ const TabsLayout = () => {
       />
       <Tabs.Screen
         name="progress"
+        listeners={{ tabPress: onTabPress(2) }}
         options={{
           title: "Training",
           tabBarLabel: ({ color }) => <TabLabel label="Training" color={color} />,
@@ -86,6 +95,7 @@ const TabsLayout = () => {
       />
       <Tabs.Screen
         name="history"
+        listeners={{ tabPress: onTabPress(3) }}
         options={{
           title: "History",
           tabBarLabel: ({ color }) => <TabLabel label="History" color={color} />,

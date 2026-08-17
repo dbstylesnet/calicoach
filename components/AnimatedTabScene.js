@@ -9,22 +9,36 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { getTabSlideDirection } from "../lib/tabTransition";
+import { getTabSlideDirection, hasTabSwitched } from "../lib/tabTransition";
 
 const DURATION = 280;
 const APP_BG = "#171b2a";
+const MOVE = {
+  duration: DURATION,
+  easing: Easing.out(Easing.cubic),
+};
 
 export function AnimatedTabScene({ children }) {
   const isFocused = useIsFocused();
   const { width } = useWindowDimensions();
-  const skipNextEnter = useRef(isFocused);
-  const translateX = useSharedValue(0);
+  const isFirstRender = useRef(true);
+  const shouldSlideInOnMount = isFocused && hasTabSwitched();
+  const translateX = useSharedValue(
+    shouldSlideInOnMount ? getTabSlideDirection() * width : 0
+  );
   const opacity = useSharedValue(isFocused ? 1 : 0);
 
   useEffect(() => {
-    if (isFocused) {
-      if (skipNextEnter.current) {
-        skipNextEnter.current = false;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+
+      if (!isFocused) {
+        opacity.value = 0;
+        translateX.value = 0;
+        return;
+      }
+
+      if (!hasTabSwitched()) {
         translateX.value = 0;
         opacity.value = 1;
         return;
@@ -33,20 +47,21 @@ export function AnimatedTabScene({ children }) {
       const direction = getTabSlideDirection();
       translateX.value = direction * width;
       opacity.value = 1;
-      translateX.value = withTiming(0, {
-        duration: DURATION,
-        easing: Easing.out(Easing.cubic),
-      });
+      translateX.value = withTiming(0, MOVE);
+      return;
+    }
+
+    if (isFocused) {
+      const direction = getTabSlideDirection();
+      translateX.value = direction * width;
+      opacity.value = 1;
+      translateX.value = withTiming(0, MOVE);
       return;
     }
 
     const direction = getTabSlideDirection();
-    // Stay opaque while sliding off so navy covers any gap (no white flash)
     opacity.value = 1;
-    translateX.value = withTiming(-direction * width, {
-      duration: DURATION,
-      easing: Easing.out(Easing.cubic),
-    });
+    translateX.value = withTiming(-direction * width, MOVE);
     opacity.value = withDelay(DURATION, withTiming(0, { duration: 1 }));
   }, [isFocused, opacity, translateX, width]);
 
