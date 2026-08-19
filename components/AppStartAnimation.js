@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -25,8 +25,9 @@ export function AppStartAnimation({ children }) {
   const insets = useSafeAreaInsets();
   const [clientReady, setClientReady] = useState(false);
   const hasAnimated = useRef(false);
+  const animationDone = useRef(false);
 
-  const { height: screenH, width: screenW } = Dimensions.get("window");
+  const { height: screenH, width: screenW } = useWindowDimensions();
 
   const logoOpacity = useSharedValue(0);
   const logoTop = useSharedValue(0);
@@ -40,6 +41,7 @@ export function AppStartAnimation({ children }) {
     setClientReady(true);
   }, []);
 
+  // Run intro animation once
   useEffect(() => {
     if (!clientReady || hasAnimated.current) return;
     hasAnimated.current = true;
@@ -86,6 +88,14 @@ export function AppStartAnimation({ children }) {
         easing: Easing.out(Easing.cubic),
       })
     );
+
+    // Mark animation done after total duration
+    const totalMs = FADE_MS + HOLD_MS + MOVE_MS + 50;
+    const timeout = setTimeout(() => {
+      animationDone.current = true;
+    }, totalMs);
+
+    return () => clearTimeout(timeout);
   }, [
     clientReady,
     contentOpacity,
@@ -99,6 +109,18 @@ export function AppStartAnimation({ children }) {
     screenH,
     screenW,
   ]);
+
+  // Animate logo to new position on orientation / dimension change
+  useEffect(() => {
+    if (!animationDone.current) return;
+
+    const finalTop = insets.top + (HEADER_HEIGHT - FINAL_LOGO_HEIGHT) / 2;
+    const finalLeft = (screenW - FINAL_LOGO_WIDTH) / 2;
+    const timing = { duration: 300, easing: Easing.inOut(Easing.cubic) };
+
+    logoTop.value = withTiming(finalTop, timing);
+    logoLeft.value = withTiming(finalLeft, timing);
+  }, [screenW, screenH, insets.top, logoTop, logoLeft]);
 
   const logoStyle = useAnimatedStyle(() => ({
     position: "absolute",
