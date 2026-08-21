@@ -13,6 +13,7 @@ const STORAGE_KEY = "calicoach.workoutHistory";
 const WorkoutHistoryContext = createContext({
   history: [],
   addWorkout: () => {},
+  clearHistory: () => {},
 });
 
 const readStorage = () => {
@@ -62,13 +63,19 @@ export const WorkoutHistoryProvider = ({ children }) => {
     });
   }, []);
 
+  const clearHistory = useCallback(() => {
+    setHistory([]);
+    writeStorage([]);
+  }, []);
+
   const value = useMemo(
     () => ({
       history,
       addWorkout,
+      clearHistory,
       ready,
     }),
-    [history, addWorkout, ready]
+    [history, addWorkout, clearHistory, ready]
   );
 
   return (

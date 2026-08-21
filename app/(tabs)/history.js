@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
 import { PageHeader } from "../../components/PageHeader";
@@ -9,7 +9,7 @@ import {
 } from "../../context/WorkoutHistoryContext";
 
 const HistoryScreen = () => {
-  const { history } = useWorkoutHistory();
+  const { history, clearHistory } = useWorkoutHistory();
 
   return (
     <AnimatedTabScene>
@@ -28,25 +28,36 @@ const HistoryScreen = () => {
               </Text>
             </View>
           ) : (
-            history.map((entry) => {
-              const { dateLabel, timeLabel } = formatWorkoutDateTime(
-                entry.completedAt
-              );
+            <>
+              <Pressable
+                onPress={clearHistory}
+                className="mb-4 items-center rounded-[5px] border border-app-border py-3"
+              >
+                <Text className="text-[14px] font-semibold text-[#30c8f8]">
+                  Clear history
+                </Text>
+              </Pressable>
 
-              return (
-                <View
-                  key={entry.id}
-                  className="mb-3 rounded-[5px] border border-app-border bg-app-surface px-4 py-4"
-                >
-                  <Text className="mb-2 text-lg font-bold text-white">
-                    {entry.name}
-                  </Text>
-                  <Text className="text-[13px] text-[#aaa]">
-                    {dateLabel} · {timeLabel}
-                  </Text>
-                </View>
-              );
-            })
+              {history.map((entry) => {
+                const { dateLabel, timeLabel } = formatWorkoutDateTime(
+                  entry.completedAt
+                );
+
+                return (
+                  <View
+                    key={entry.id}
+                    className="mb-3 rounded-[5px] border border-app-border bg-app-surface px-4 py-4"
+                  >
+                    <Text className="mb-2 text-lg font-bold text-white">
+                      {entry.name}
+                    </Text>
+                    <Text className="text-[13px] text-[#aaa]">
+                      {dateLabel} · {timeLabel}
+                    </Text>
+                  </View>
+                );
+              })}
+            </>
           )}
         </ScrollView>
       </View>
