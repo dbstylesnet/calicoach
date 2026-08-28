@@ -3,11 +3,19 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
 import { PageHeader } from "../../components/PageHeader";
+import { useExerciseProgress } from "../../context/ExerciseProgressContext";
 import { useWorkoutHistory } from "../../context/WorkoutHistoryContext";
 import { trainingRoutines } from "../../data/programs";
+import {
+  FAMILY_TO_CHAIN,
+  formatStandard,
+  getChainByFamilyName,
+  getLevelLabel,
+} from "../../lib/exerciseProgress";
 
 const ProgressScreen = () => {
   const { addWorkout } = useWorkoutHistory();
+  const { getChainProgress } = useExerciseProgress();
   const [selectedRoutineId, setSelectedRoutineId] = useState(null);
   const [completed, setCompleted] = useState({});
   const savedForSession = useRef(false);
@@ -103,6 +111,13 @@ const ProgressScreen = () => {
 
           {selectedRoutine.exercises.map((exercise, index) => {
             const isDone = !!completed[index];
+            const chainId = FAMILY_TO_CHAIN[exercise.name];
+            const chain = getChainByFamilyName(exercise.name);
+            const chainProgress = chainId ? getChainProgress(chainId) : null;
+            const currentStep =
+              chain && chainProgress
+                ? chain.steps.find((step) => step.step === chainProgress.currentStep)
+                : null;
 
             return (
               <Pressable
@@ -132,6 +147,13 @@ const ProgressScreen = () => {
                   <Text className="mt-0.5 text-[12px] text-[#aaa]">
                     {exercise.caption} · {exercise.sets}
                   </Text>
+                  {currentStep && chainProgress ? (
+                    <Text className="mt-1 text-[12px] text-[#30c8f8]">
+                      Step {chainProgress.currentStep}: {currentStep.name} ·{" "}
+                      {getLevelLabel(chainProgress.currentLevel)} ·{" "}
+                      {formatStandard(currentStep, chainProgress.currentLevel)}
+                    </Text>
+                  ) : null}
                 </View>
               </Pressable>
             );
