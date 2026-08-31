@@ -54,25 +54,29 @@ const ProgramsScreen = () => {
             return (
               <View key={program.id} className="mb-6">
                 <View
-                  className={`mb-3 rounded-[5px] border bg-app-surface px-4 py-4 ${
-                    isSelected ? "border-[#30c8f8]" : "border-app-border"
+                  className={`relative mb-3 overflow-hidden rounded-[5px] border border-app-border px-4 py-4 ${
+                    isSelected ? "bg-[#3d4a72]" : "bg-app-surface"
                   }`}
                 >
+                  {isSelected ? (
+                    <Text
+                      pointerEvents="none"
+                      className="absolute -bottom-8 left-5 text-[#30c8f8] opacity-30"
+                      style={{ fontSize: 184, lineHeight: 184, fontWeight: "200" }}
+                    >
+                      ✓
+                    </Text>
+                  ) : null}
+
+                  <View className="relative z-10">
                   <Pressable onPress={() => toggleProgram(program.id)}>
                     <View className="mb-1 flex-row items-center justify-between">
                       <Text className="text-lg font-bold text-white">
                         {program.name}
                       </Text>
-                      <View className="flex-row items-center gap-2">
-                        {isSelected ? (
-                          <Text className="rounded px-2 py-0.5 text-[11px] font-bold text-[#30c8f8]">
-                            Chosen ✓
-                          </Text>
-                        ) : null}
-                        <Text className="text-[12px] font-semibold text-[#30c8f8]">
-                          {program.level}
-                        </Text>
-                      </View>
+                      <Text className="text-[12px] font-semibold text-[#30c8f8]">
+                        {program.level}
+                      </Text>
                     </View>
                     <Text className="mb-2 text-[13px] text-[#aaa]">
                       {program.caption}
@@ -95,6 +99,7 @@ const ProgramsScreen = () => {
                       </Text>
                     </Pressable>
                   ) : null}
+                  </View>
                 </View>
 
                 {isExpanded &&
