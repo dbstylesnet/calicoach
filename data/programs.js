@@ -122,12 +122,55 @@ export const convictConditioningPrograms = [
   },
 ];
 
-/** All six movement chains in one session for the Training tab. */
-export const fullTrainingSession = {
-  id: "full-session",
-  name: "Full Training",
-  exercises: exercises.map((family) => ({
-    name: family.name,
-    caption: family.caption,
-  })),
+const DAY_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+export const getProgramById = (programId) =>
+  convictConditioningPrograms.find((program) => program.id === programId);
+
+export const getActiveWeek = (program) => {
+  if (program.id === "new-blood") {
+    const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+    const weekIndex = Math.floor(Date.now() / msPerWeek) % program.weeks.length;
+    return program.weeks[weekIndex];
+  }
+  return program.weeks[0];
+};
+
+export const getTodaysSession = (program) => {
+  const week = getActiveWeek(program);
+  const todayName = DAY_NAMES[new Date().getDay()];
+  return week.days.find((day) => day.label === todayName) ?? restDay(todayName);
+};
+
+export const getExerciseKey = (weekId, dayLabel, exerciseName) =>
+  `${weekId}:${dayLabel}:${exerciseName}`;
+
+export const getProgramExerciseEntries = (program) => {
+  const entries = [];
+
+  for (const week of program.weeks) {
+    for (const day of week.days) {
+      if (day.rest) continue;
+
+      for (const exercise of day.exercises) {
+        entries.push({
+          key: getExerciseKey(week.id, day.label, exercise.name),
+          weekId: week.id,
+          weekName: week.name,
+          dayLabel: day.label,
+          exercise,
+        });
+      }
+    }
+  }
+
+  return entries;
 };

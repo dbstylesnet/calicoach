@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Pressable, View } from "react-native";
+import { useRouter } from "expo-router";
 import styled from "styled-components/native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
 import { PageHeader } from "../../components/PageHeader";
 import { useExerciseProgress } from "../../context/ExerciseProgressContext";
+import { useProgramSelection } from "../../context/ProgramSelectionContext";
 import { exercises } from "../../data/exercises";
 import {
   FAMILY_TO_CHAIN,
@@ -14,9 +16,12 @@ import {
   getLevelLabel,
   getStepStatus,
 } from "../../lib/exerciseProgress";
+import { setTabSlideDirection } from "../../lib/tabTransition";
 
 const ExercisesScreen = () => {
+  const router = useRouter();
   const { getChainProgress, markLevelComplete } = useExerciseProgress();
+  const { selectedProgramId, requestProgramSelection } = useProgramSelection();
   const [expandedCategories, setExpandedCategories] = useState({});
   const [expandedSteps, setExpandedSteps] = useState({});
 
@@ -33,6 +38,18 @@ const ExercisesScreen = () => {
       ...prev,
       [key]: !prev[key],
     }));
+  };
+
+  const goToTraining = () => {
+    if (!selectedProgramId) {
+      setTabSlideDirection(1);
+      requestProgramSelection();
+      router.push("/programs");
+      return;
+    }
+
+    setTabSlideDirection(1);
+    router.push("/progress");
   };
 
   return (
@@ -117,13 +134,20 @@ const ExercisesScreen = () => {
                             ) : null}
 
                             {isCurrent && chainId ? (
-                              <CompleteButton
-                                onPress={() => markLevelComplete(chainId)}
-                              >
-                                <CompleteButtonText>
-                                  Mark {getLevelLabel(chainProgress.currentLevel)} complete
-                                </CompleteButtonText>
-                              </CompleteButton>
+                              <ActionRow>
+                                <ActionButton
+                                  onPress={() => markLevelComplete(chainId)}
+                                >
+                                  <ActionButtonText>
+                                    Mark {getLevelLabel(chainProgress.currentLevel)} complete
+                                  </ActionButtonText>
+                                </ActionButton>
+                                <ActionButton onPress={goToTraining}>
+                                  <ActionButtonText>
+                                    Continue training →
+                                  </ActionButtonText>
+                                </ActionButton>
+                              </ActionRow>
                             ) : null}
                           </StepDetail>
                         )}
@@ -273,18 +297,26 @@ const StandardValue = styled.Text`
   font-weight: ${({ active }) => (active ? "600" : "400")};
 `;
 
-const CompleteButton = styled(Pressable)`
+const ActionRow = styled.View`
+  flex-direction: row;
+  gap: 8px;
   margin-top: 12px;
+`;
+
+const ActionButton = styled(Pressable)`
+  flex: 1;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #30c8f8;
   align-items: center;
+  justify-content: center;
 `;
 
-const CompleteButtonText = styled.Text`
+const ActionButtonText = styled.Text`
   color: #30c8f8;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
+  text-align: center;
 `;
 
 export default ExercisesScreen;

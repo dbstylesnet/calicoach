@@ -6,20 +6,23 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AppStartAnimation } from "../components/AppStartAnimation";
 import { ExerciseProgressProvider } from "../context/ExerciseProgressContext";
+import { ProgramSelectionProvider } from "../context/ProgramSelectionContext";
 import { WorkoutHistoryProvider } from "../context/WorkoutHistoryContext";
 
 const Layout = () => {
   return (
     <SafeAreaProvider>
-      <ExerciseProgressProvider>
-        <WorkoutHistoryProvider>
+      <ProgramSelectionProvider>
+        <ExerciseProgressProvider>
+          <WorkoutHistoryProvider>
           <View className="min-h-screen flex-1 bg-app-bg">
             <AppStartAnimation>
               <Slot />
             </AppStartAnimation>
           </View>
-        </WorkoutHistoryProvider>
-      </ExerciseProgressProvider>
+          </WorkoutHistoryProvider>
+        </ExerciseProgressProvider>
+      </ProgramSelectionProvider>
     </SafeAreaProvider>
   );
 };

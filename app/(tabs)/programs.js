@@ -3,9 +3,16 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
 import { PageHeader } from "../../components/PageHeader";
+import { useProgramSelection } from "../../context/ProgramSelectionContext";
 import { convictConditioningPrograms } from "../../data/programs";
 
 const ProgramsScreen = () => {
+  const {
+    selectedProgramId,
+    selectProgram,
+    showProgramSelectionNotice,
+    dismissProgramSelectionNotice,
+  } = useProgramSelection();
   const [expandedPrograms, setExpandedPrograms] = useState({});
 
   const toggleProgram = (programId) => {
@@ -21,36 +28,74 @@ const ProgramsScreen = () => {
         <ScrollView className="flex-1 bg-app-bg px-5 pt-5">
           <PageHeader
             title="Programs"
-            subtitle="Convict Conditioning weekly schedules — New Blood, Good Behavior, and Veterano."
+            subtitle="Pick one Convict Conditioning program — New Blood, Good Behavior, or Veterano."
           />
+
+          {showProgramSelectionNotice ? (
+            <View className="mb-4 rounded-[5px] border border-[#30c8f8] bg-[#1a3040] px-4 py-3">
+              <View className="flex-row items-start justify-between">
+                <Text className="mr-3 flex-1 text-[14px] font-semibold text-[#30c8f8]">
+                  Choose type of training
+                </Text>
+                <Pressable onPress={dismissProgramSelectionNotice} className="py-0.5">
+                  <Text className="text-[13px] text-[#8a91a8]">Dismiss</Text>
+                </Pressable>
+              </View>
+              <Text className="mt-1 text-[13px] leading-5 text-[#ccc]">
+                Select a program below before you continue to Training.
+              </Text>
+            </View>
+          ) : null}
 
           {convictConditioningPrograms.map((program) => {
             const isExpanded = !!expandedPrograms[program.id];
+            const isSelected = selectedProgramId === program.id;
 
             return (
               <View key={program.id} className="mb-6">
-                <Pressable
-                  onPress={() => toggleProgram(program.id)}
-                  className="mb-3 rounded-[5px] border border-app-border bg-app-surface px-4 py-4"
+                <View
+                  className={`mb-3 rounded-[5px] border bg-app-surface px-4 py-4 ${
+                    isSelected ? "border-[#30c8f8]" : "border-app-border"
+                  }`}
                 >
-                  <View className="mb-1 flex-row items-center justify-between">
-                    <Text className="text-lg font-bold text-white">
-                      {program.name}
+                  <Pressable onPress={() => toggleProgram(program.id)}>
+                    <View className="mb-1 flex-row items-center justify-between">
+                      <Text className="text-lg font-bold text-white">
+                        {program.name}
+                      </Text>
+                      <View className="flex-row items-center gap-2">
+                        {isSelected ? (
+                          <Text className="rounded px-2 py-0.5 text-[11px] font-bold text-[#30c8f8]">
+                            Chosen ✓
+                          </Text>
+                        ) : null}
+                        <Text className="text-[12px] font-semibold text-[#30c8f8]">
+                          {program.level}
+                        </Text>
+                      </View>
+                    </View>
+                    <Text className="mb-2 text-[13px] text-[#aaa]">
+                      {program.caption}
                     </Text>
-                    <Text className="text-[12px] font-semibold text-[#30c8f8]">
-                      {program.level}
+                    <Text className="text-[14px] leading-5 text-[#ccc]">
+                      {program.description}
                     </Text>
-                  </View>
-                  <Text className="mb-2 text-[13px] text-[#aaa]">
-                    {program.caption}
-                  </Text>
-                  <Text className="text-[14px] leading-5 text-[#ccc]">
-                    {program.description}
-                  </Text>
-                  <Text className="mt-2 text-[12px] text-[#8a91a8]">
-                    {isExpanded ? "Tap to collapse" : "Tap to view weekly schedule"}
-                  </Text>
-                </Pressable>
+                    <Text className="mt-2 text-[12px] text-[#8a91a8]">
+                      {isExpanded ? "Tap to collapse schedule" : "Tap to view weekly schedule"}
+                    </Text>
+                  </Pressable>
+
+                  {!isSelected ? (
+                    <Pressable
+                      onPress={() => selectProgram(program.id)}
+                      className="mt-4 items-center rounded-[5px] border border-[#30c8f8] py-2.5"
+                    >
+                      <Text className="text-[13px] font-semibold text-[#30c8f8]">
+                        Choose program
+                      </Text>
+                    </Pressable>
+                  ) : null}
+                </View>
 
                 {isExpanded &&
                   program.weeks.map((week) => (
