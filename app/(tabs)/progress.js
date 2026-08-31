@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { AnimatedTabScene } from "../../components/AnimatedTabScene";
 import { PageHeader } from "../../components/PageHeader";
 import { useExerciseProgress } from "../../context/ExerciseProgressContext";
 import { useWorkoutHistory } from "../../context/WorkoutHistoryContext";
-import { trainingRoutines } from "../../data/programs";
+import { fullTrainingSession } from "../../data/programs";
 import {
   FAMILY_TO_CHAIN,
   formatStandard,
@@ -16,33 +16,20 @@ import {
 const ProgressScreen = () => {
   const { addWorkout } = useWorkoutHistory();
   const { getChainProgress } = useExerciseProgress();
-  const [selectedRoutineId, setSelectedRoutineId] = useState(null);
   const [completed, setCompleted] = useState({});
   const savedForSession = useRef(false);
 
-  const selectedRoutine = useMemo(
-    () => trainingRoutines.find((routine) => routine.id === selectedRoutineId),
-    [selectedRoutineId]
-  );
-
-  const total = selectedRoutine?.exercises.length ?? 0;
-  const doneCount = selectedRoutine
-    ? selectedRoutine.exercises.filter((_, index) => completed[index]).length
-    : 0;
+  const exercises = fullTrainingSession.exercises;
+  const total = exercises.length;
+  const doneCount = exercises.filter((_, index) => completed[index]).length;
   const isFinished = total > 0 && doneCount === total;
 
   useEffect(() => {
-    if (isFinished && selectedRoutine && !savedForSession.current) {
-      addWorkout(selectedRoutine.name);
+    if (isFinished && !savedForSession.current) {
+      addWorkout(fullTrainingSession.name);
       savedForSession.current = true;
     }
-  }, [isFinished, selectedRoutine, addWorkout]);
-
-  const selectRoutine = (routineId) => {
-    setSelectedRoutineId(routineId);
-    setCompleted({});
-    savedForSession.current = false;
-  };
+  }, [isFinished, addWorkout]);
 
   const toggleExercise = (index) => {
     setCompleted((prev) => ({
@@ -51,65 +38,30 @@ const ProgressScreen = () => {
     }));
   };
 
-  const clearRoutine = () => {
-    setSelectedRoutineId(null);
+  const resetSession = () => {
     setCompleted({});
     savedForSession.current = false;
   };
-
-  if (!selectedRoutine) {
-    return (
-      <AnimatedTabScene>
-        <View className="min-h-0 flex-1 bg-app-bg">
-          <ScrollView className="flex-1 bg-app-bg px-5 pt-5">
-            <PageHeader
-              title="Training"
-              subtitle="Choose a routine, then check off each category as you finish it."
-            />
-
-            {trainingRoutines.map((routine) => (
-              <Pressable
-                key={routine.id}
-                onPress={() => selectRoutine(routine.id)}
-                className="mb-3 rounded-[5px] border border-app-border bg-app-surface px-4 py-4"
-              >
-                <Text className="mb-1 text-lg font-bold text-white">
-                  {routine.name}
-                </Text>
-                <Text className="text-[13px] text-[#aaa]">
-                  {routine.exercises.length} categories from the exercise list
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </View>
-      </AnimatedTabScene>
-    );
-  }
 
   return (
     <AnimatedTabScene>
       <View className="min-h-0 flex-1 bg-app-bg">
         <ScrollView className="flex-1 bg-app-bg px-5 pt-5">
-          <PageHeader title="Training" />
+          <PageHeader
+            title="Training"
+            subtitle="Complete all six movement chains. Targets follow your current step and level."
+          />
 
-          <View className="mb-4 flex-row items-start justify-between">
-            <View className="mr-3 flex-1">
-              <Text className="mb-1 text-xl font-bold text-white">
-                {selectedRoutine.name}
-              </Text>
-              <Text className="text-[13px] text-[#aaa]">
-                {doneCount} of {total} complete
-              </Text>
-            </View>
-            <Pressable onPress={clearRoutine} className="py-1">
-              <Text className="text-[13px] font-semibold text-[#8a91a8]">
-                Change
-              </Text>
-            </Pressable>
+          <View className="mb-4">
+            <Text className="mb-1 text-xl font-bold text-white">
+              {fullTrainingSession.name}
+            </Text>
+            <Text className="text-[13px] text-[#aaa]">
+              {doneCount} of {total} complete
+            </Text>
           </View>
 
-          {selectedRoutine.exercises.map((exercise, index) => {
+          {exercises.map((exercise, index) => {
             const isDone = !!completed[index];
             const chainId = FAMILY_TO_CHAIN[exercise.name];
             const chain = getChainByFamilyName(exercise.name);
@@ -121,7 +73,7 @@ const ProgressScreen = () => {
 
             return (
               <Pressable
-                key={`${exercise.name}-${index}`}
+                key={exercise.name}
                 onPress={() => toggleExercise(index)}
                 className="mb-3 flex-row items-center rounded-[5px] bg-app-surface px-3 py-3"
               >
@@ -145,7 +97,7 @@ const ProgressScreen = () => {
                     {exercise.name}
                   </Text>
                   <Text className="mt-0.5 text-[12px] text-[#aaa]">
-                    {exercise.caption} · {exercise.sets}
+                    {exercise.caption}
                   </Text>
                   {currentStep && chainProgress ? (
                     <Text className="mt-1 text-[12px] text-[#30c8f8]">
@@ -165,15 +117,14 @@ const ProgressScreen = () => {
                 Training complete
               </Text>
               <Text className="mb-4 text-[14px] leading-5 text-[#ccc]">
-                You finished every exercise in this routine. It was saved to
-                History.
+                You finished all six movement chains. It was saved to History.
               </Text>
               <Pressable
-                onPress={clearRoutine}
+                onPress={resetSession}
                 className="items-center rounded-[5px] border border-app-border py-3"
               >
                 <Text className="text-[14px] font-semibold text-white">
-                  Choose another routine
+                  Start new session
                 </Text>
               </Pressable>
             </View>
